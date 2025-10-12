@@ -1,0 +1,267 @@
+:root {
+    --bg: #fff;
+    --fg: #0f172a;
+    --muted: #64748b;
+    --gap: 14px;
+    --border: #e5e7eb;
+    --radius: 16px;
+    --shadow: 0 8px 26px rgba(15, 23, 42, 0.10);
+    --skel: #eef2f7;
+    --skel2: #e6ebf2;
+    --accent: #0ea5e9;
+    --blue: #0068B7;
+    --red: #E60012;
+    --brand-logo: clamp(22px, 5vw, 30px); /* ロゴの見た目サイズ */
+    --brand-title-scale: 0.55;            /* ロゴに対するタイトル文字サイズ比 */
+}
+
+html,
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 
+        "Noto Sans JP",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN",
+        Meiryo,
+        sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 共通レイアウト */
+.wrap {
+    max-width: 1200px;
+    margin: 28px auto 96px;
+    padding: 0 16px;
+}
+
+h1 {
+    margin: 0 0 18px;
+    font-size: clamp(22px, 2.6vw, 30px);
+}
+
+/* Header */
+.site-header {
+    background: var(--blue);
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav a {
+    margin-left: 14px;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* ロゴとタイトル */
+.brand,
+.brand-title {
+    font-weight: 700;
+    font-size: calc(var(--brand-logo) * var(--brand-title-scale)); /* ロゴに連動して小さめに */
+    line-height: 1.2; /* 見出しとして少し詰める（任意） */
+}
+
+/* ロゴとタイトルを横並びで中央揃え */
+.site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;              /* ロゴと文字の間隔（少し詰める） */
+    text-decoration: none; /* 既存 .site-header a と整合 */
+    color: inherit;
+}
+
+/* ロゴ：HTML側は width/height に実寸を入れてCLS対策。
+   見た目サイズはCSS（この変数）で制御します。 */
+.brand-logo {
+    width: var(--brand-logo);
+    aspect-ratio: 1;       /* 正方形を維持 */
+    height: auto;          /* 比率から算出 */
+    object-fit: cover;     /* 念のため中央トリミング */
+    border-radius: 0;      /* 角丸不要なら 0 に */
+}
+
+/* Main */
+main.page {
+    padding: 40px 0;
+}
+
+/* Masonry */
+.masonry {
+    display: flex;
+    gap: var(--gap);
+    align-items: flex-start;
+}
+
+.col {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .masonry {
+        display: block;
+    }
+
+    .col {
+        width: 100%;
+    }
+}
+
+/* カード */
+.card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+}
+
+.card-inner {
+    padding: 10px;
+}
+
+.card.pending blockquote {
+    visibility: hidden;
+}
+
+/* widgets.js が入れる inline margin/max-width を強制無効化 */
+.card .twitter-tweet,
+.card .twitter-tweet-rendered {
+    margin: 0 !important;
+    max-width: 100% !important;
+}
+
+.card .twitter-tweet-rendered iframe {
+    width: 100% !important;
+}
+
+.card .twitter-tweet,
+.card .twitter-tweet-rendered {
+    padding: 0 !important;
+}
+
+/* Skeleton */
+.skel {
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--skel) 0%, var(--skel2) 50%, var(--skel) 100%);
+    background-size: 200% 100%;
+    animation: shine 1.2s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skel.title {
+    height: 18px;
+    margin: 12px;
+}
+
+.skel.l {
+    height: 12px;
+    margin: 10px 12px;
+}
+
+.skel.media {
+    height: 360px;
+    margin: 12px;
+    border-radius: 14px;
+}
+
+/* Spinner */
+.spinner {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 3px solid #cbd5e1;
+    border-top-color: var(--accent);
+    margin: 18px auto 14px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* More button */
+.more {
+    display: flex;
+    justify-content: center;
+    margin: 22px 0 0;
+}
+
+.btn {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    padding: 10px 16px;
+    box-shadow: 0 8px 18px rgba(14, 165, 233, 0.3);
+    cursor: pointer;
+}
+
+.btn[disabled] {
+    opacity: 0.45;
+    cursor: default;
+    box-shadow: none;
+}
+
+/* Footer */
+.site-footer {
+    background: var(--red);
+    color: #fff;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.site-footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,125 @@
+/* ===== Card Grid (landscape thumbnails, equal-height rows) ===== */
+:root {
+    --gap: 16px;
+    --radius: 12px;
+    --border: #e6e9ee;
+    --shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    --skel: #f3f5f8;
+    --skel2: #e9edf3;
+
+    /* 最小カード幅（必要に応じて調整） */
+    --col-min: 240px;
+
+    /* 画像の比率：横長 3:2（例：16:9 にしたい場合は 16/9 に変更） */
+    --media-w: 3;
+    --media-h: 2;
+}
+
+/* 行ごと等高＋自動折返し（レスポンシブ列数） */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+    align-items: stretch; /* 同一行で高さを揃える */
+}
+
+/* 列幅：下限を守って可変（1→2→3→4列…） */
+.card {
+    flex: 1 1 clamp(var(--col-min), 25%, 360px);
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+        border-color: #dfe3ea;
+    }
+}
+
+/* ===== 画像：横長比率で統一（中央トリミング） ===== */
+.card-media {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    background: linear-gradient(180deg, var(--skel), var(--skel2));
+    overflow: hidden;
+}
+
+/* モダン環境：比率で高さを決定 */
+@supports (aspect-ratio: 1 / 1) {
+    .card-media {
+        aspect-ratio: calc(var(--media-w) / var(--media-h));
+    }
+
+    .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+/* 古い環境：固定高さフェールバック（お好みで調整可） */
+@supports not (aspect-ratio: 1 / 1) {
+    .card-media {
+        height: 180px;
+    }
+
+    .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+/* タイトル：省略なし・自然改行 */
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 12px 14px 14px;
+    letter-spacing: 0.02em;
+    overflow-wrap: anywhere; /* 長い英語等でも折返す */
+}
+
+/* 操作不可（建設中） */
+.card--disabled {
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+/* 細すぎ防止：画面幅で下限幅を段階アップ */
+@media (min-width: 480px) {
+    :root {
+        --col-min: 260px;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --col-min: 280px;
+    }
+}
+
+@media (min-width: 1200px) {
+    :root {
+        --col-min: 300px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+}
