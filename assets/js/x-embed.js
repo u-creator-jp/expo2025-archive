@@ -203,7 +203,7 @@
                 await retry(
                     async ()=>{
                         await withTimeout(
-                            window.twttr.widgets.createTweet(id, mount, {align:'center', dnt:true}),
+                            window.twttr.widgets.createTweet(id, mount, {align:'center', conversation: 'none', dnt:true}),
                             CREATE_TWEET_TIMEOUT,
                             'createTweet/timeout'
                         );
