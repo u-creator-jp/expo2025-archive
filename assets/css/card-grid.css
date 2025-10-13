@@ -15,17 +15,17 @@
     --media-h: 2;
 }
 
-/* 行ごと等高＋自動折返し（レスポンシブ列数） */
+/* 行ごと等高（Gridベース） */
 .card-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3列固定 */
     gap: var(--gap);
-    align-items: stretch; /* 同一行で高さを揃える */
+    align-items: stretch;
 }
 
 /* 列幅：下限を守って可変（1→2→3→4列…） */
 .card {
-    flex: 1 1 clamp(var(--col-min), 25%, 360px);
+    flex: 1 1 clamp(var(--col-min), 25%, 360px); /* Gridでは無効だが既存のまま保持 */
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -121,5 +121,20 @@
 @media (prefers-reduced-motion: reduce) {
     .card {
         transition: none;
+    }
+}
+
+/* ===== 列数ブレークポイント（追加） ===== */
+/* 1024px 以下：2列 */
+@media (max-width: 1024px) {
+    .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* 640px 以下：1列 */
+@media (max-width: 640px) {
+    .card-grid {
+        grid-template-columns: 1fr;
     }
 }
